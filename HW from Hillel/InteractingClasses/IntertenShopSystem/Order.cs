@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace WebShopSystem
+{
+    class Order
+    {
+        Products products;
+        Client client;
+
+
+    }
+}
