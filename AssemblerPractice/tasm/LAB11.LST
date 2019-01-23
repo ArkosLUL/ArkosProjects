@@ -1,0 +1,71 @@
+Turbo Assembler	 Version 4.1	    12/14/18 10:10:17	    Page 1
+lab11.ASM
+
+
+
+      1	0000			     segst   segment para stack	 'stack'
+      2	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack678')
+      3	      36 37 38)
+      4	0200			     segst   ends
+      5	0000			     dseg segment 'data'
+      6	0000  5B		     sixteenNumber DB 5Bh
+      7	0001  0C		     bufConst DB 12
+      8	0002  10		     const1 db 2*8
+      9	0003  00000000000000001000   positiveInteger1 dt 1000
+     10	000D  00000000707269766574   string dt 'privet'
+     11	0017  ??		     bufString db ?
+     12	0018  0129		     positiveInteger2 dw 297
+     13	001A  FF81		     negativeSexteenNumber dw -7Fh
+     14	001C			     dseg ends
+     15	0000			     cseg segment
+     16				       assume ds:dseg,cs:cseg,ss:segst
+     17	0000			     main proc far
+     18	0000  1E			push ds
+     19	0001  2B C0			sub AX,AX
+     20	0003  50			push AX
+     21	0004  B8 0000s			mov ax,dseg
+     22	0007  8E D8			mov ds,ax
+     23
+     24	0009  B0 75			mov al,	'u'
+     25	000B  C6 06 0017r 6F		mov bufString, 'o'
+     26	0010  8C C0			mov ax,	es
+     27	0012  BB 0000r			mov bx,	offset sixteenNumber
+     28	0015  8A 07			mov al,	[bx]
+     29	0017  A1 0018r			mov ax,	positiveInteger2
+     30	001A  8E 06 0018r		mov es,	positiveInteger2
+     31	001E  CB			ret
+     32	001F			     main endp
+     33	001F			     cseg ends
+     34				     end main
+Turbo Assembler	 Version 4.1	    12/14/18 10:10:17	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/14/18"
+??FILENAME			  Text	 "lab11	  "
+??TIME				  Text	 "10:10:17"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB11
+@WORDSIZE			  Text	 2
+BUFCONST			  Byte	 DSEG:0001
+BUFSTRING			  Byte	 DSEG:0017
+CONST1				  Byte	 DSEG:0002
+MAIN				  Far	 CSEG:0000
+NEGATIVESEXTEENNUMBER		  Word	 DSEG:001A
+POSITIVEINTEGER1		  Tbyte	 DSEG:0003
+POSITIVEINTEGER2		  Word	 DSEG:0018
+SIXTEENNUMBER			  Byte	 DSEG:0000
+STRING				  Tbyte	 DSEG:000D
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  001F Para	  none
+DSEG				  16  001C Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

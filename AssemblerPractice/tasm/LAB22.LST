@@ -1,0 +1,153 @@
+Turbo Assembler	 Version 4.1	    12/05/18 12:10:34	    Page 1
+lab22.asm
+
+
+
+      1				     ;PAVLIUK DMITRIY PZ-17-1
+      2				     ;y	= x*x +	a*a*b*b*x - (x*x + a*a/a+1)
+      3				     ;у = 154 с остачей при	данных значениях
+      4	0000			     segst   segment para stack	 'stack'
+      5	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack678')
+      6	      36 37 38)
+      7	0200			     segst   ends
+      8	0000			     dseg segment 'data'
+      9	0000  02		     a DB 2
+     10	0001  03		     b DB 3
+     11	0002  FE		     c DB -2
+     12	0003  0004		     x DW 4
+     13	0005  0000		     y DW 0
+     14	0007  00		     bufb DB 0
+     15	0008  0000		     bufw DW 0
+     16	000A  0000		     bufw2 DW 0
+     17	000C  0000		     bufw3 DW 0
+     18	000E  0000		     bufw4 DW 0
+     19	0010  0000		     bufw5 DW 0
+     20	0012			     dseg ends
+     21	0000			     cseg segment
+     22				       assume ds:dseg,cs:cseg,ss:segst
+     23	0000			     main proc far
+     24	0000  1E			push ds
+     25	0001  2B C0			sub AX,AX
+     26	0003  50			push AX
+     27	0004  B8 0000s			mov ax,dseg
+     28	0007  8E D8			mov ds,ax
+     29
+     30	0009  A1 0003r			     mov AX,x
+     31	000C  F7 E8			     imul AX
+     32	000E  F7 E8			     imul AX, 4
+**Error** lab22.asm(31)	Extra characters on line
+     33	0010  A0 0000r			     mov AL, a
+     34	0013  A3 0008r			     mov bufw, AX
+     35	0016  98			     cbw
+     36	0017  01 06 0008r		     Add bufw, AL
+**Error** lab22.asm(35)	Operand	types do not match
+     37	001B  B0 00			     mov AL a
+**Error** lab22.asm(36)	Too few	operands to instruction
+     38	001D  2C 00			     sub AL b
+**Error** lab22.asm(37)	Too few	operands to instruction
+     39	001F  F6 E8			     imul Al, 3
+**Error** lab22.asm(38)	Extra characters on line
+     40	0021  98			     cbw
+     41	0022  F7 3E 000Ar		     idiv bufw2, AX
+**Error** lab22.asm(40)	Extra characters on line
+     42	0026  A0 0001r			     mov AL, b
+     43	0029  A1 0003r			     mov AX, x
+     44	002C  8C EE 000Cr		     mov bufw3,	x
+**Error** lab22.asm(43)	Need register in expression
+     45	0030  F7 E8			     imul AX, bufw3
+**Error** lab22.asm(44)	Extra characters on line
+     46	0032  F7 E8			     imul AX, bufw3
+**Error** lab22.asm(45)	Extra characters on line
+     47	0034  A3 000Er			     mov bufw4,	AX
+     48	0037  98			     cbw
+Turbo Assembler	 Version 4.1	    12/05/18 12:10:34	    Page 2
+lab22.asm
+
+
+
+     49	0038  F7 2E 000Er		     imul bufw4, AX
+**Error** lab22.asm(48)	Extra characters on line
+     50	003C  A0 0000r			     mov AL, a
+     51	003F  A1 0003r			     mov AX, x
+     52	0042  F7 E8			     imul AX
+     53	0044  A3 0010r			     mov bufw5,	AX
+     54	0047  98			     cbw
+     55	0048  F7 2E 0010r		     imul bufw5, AX
+**Error** lab22.asm(54)	Extra characters on line
+     56	004C  29 06 000Er		     sub bufw4,	bufw5
+**Error** lab22.asm(55)	Illegal	memory reference
+     57	0050  01 06 000Ar		     add bufw2,	bufw4
+**Error** lab22.asm(56)	Illegal	memory reference
+     58
+     59
+     60
+     61
+     62
+     63
+     64
+     65
+     66
+     67
+     68
+     69
+     70
+     71
+     72
+     73
+     74	0054  CB			ret
+     75	0055			     main endp
+     76	0055			     cseg ends
+     77				     end main
+Turbo Assembler	 Version 4.1	    12/05/18 12:10:34	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/05/18"
+??FILENAME			  Text	 "lab22	  "
+??TIME				  Text	 "12:10:34"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB22
+@WORDSIZE			  Text	 2
+A				  Byte	 DSEG:0000
+B				  Byte	 DSEG:0001
+BUFB				  Byte	 DSEG:0007
+BUFW				  Word	 DSEG:0008
+BUFW2				  Word	 DSEG:000A
+BUFW3				  Word	 DSEG:000C
+BUFW4				  Word	 DSEG:000E
+BUFW5				  Word	 DSEG:0010
+C				  Byte	 DSEG:0002
+MAIN				  Far	 CSEG:0000
+X				  Word	 DSEG:0003
+Y				  Word	 DSEG:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  0055 Para	  none
+DSEG				  16  0012 Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+Turbo Assembler	 Version 4.1	    12/05/18 12:10:34	    Page 4
+Error Summary
+
+
+
+**Error** lab22.asm(31)	Extra characters on line
+**Error** lab22.asm(35)	Operand	types do not match
+**Error** lab22.asm(36)	Too few	operands to instruction
+**Error** lab22.asm(37)	Too few	operands to instruction
+**Error** lab22.asm(38)	Extra characters on line
+**Error** lab22.asm(40)	Extra characters on line
+**Error** lab22.asm(43)	Need register in expression
+**Error** lab22.asm(44)	Extra characters on line
+**Error** lab22.asm(45)	Extra characters on line
+**Error** lab22.asm(48)	Extra characters on line
+**Error** lab22.asm(54)	Extra characters on line
+**Error** lab22.asm(55)	Illegal	memory reference
+**Error** lab22.asm(56)	Illegal	memory reference
+

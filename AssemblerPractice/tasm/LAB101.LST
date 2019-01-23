@@ -1,0 +1,71 @@
+Turbo Assembler	 Version 4.1	    11/07/18 11:33:09	    Page 1
+lab101.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  0005 0006	000E 0014 +  p1	DW 5,6,14,20,33
+      9	      0021
+     10	000A  03*(0001 0002 0003)    p2	DW 3 dup(1,2,3)
+     11	001C  0000000000000000005A   p3	DT 5Ah
+     12	0026  ????		     p4	DW ?
+     13	0028  18		     p5	DB 18h
+     14	0029  25		     p6	DB '%'
+     15
+     16
+     17	002A			     dseg ends
+     18	0000			     cseg segment
+     19				       assume ds:dseg,cs:cseg,ss:segst
+     20	0000			     main proc far
+     21	0000  1E			push ds
+     22	0001  2B C0			sub AX,AX
+     23	0003  50			push AX
+     24	0004  B8 0000s			mov ax,dseg
+     25	0007  8E D8			mov ds,ax
+     26	0009  A1 0000r			mov ax,p1
+     27	000C  B0 23			mov al,'#'
+     28	000E  8E D8			mov ds,ax
+     29	0010  A2 0028r			mov p5,al
+     30	0013  A1 0000r			mov ax,p1
+     31	0016  A2 0029r			mov p6,al
+     32
+     33	0019  CB			ret
+     34	001A			     main endp
+     35	001A			     cseg ends
+     36				     end main
+Turbo Assembler	 Version 4.1	    11/07/18 11:33:09	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/07/18"
+??FILENAME			  Text	 "lab101  "
+??TIME				  Text	 "11:33:09"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB101
+@WORDSIZE			  Text	 2
+MAIN				  Far	 CSEG:0000
+P1				  Word	 DSEG:0000
+P2				  Word	 DSEG:000A
+P3				  Tbyte	 DSEG:001C
+P4				  Word	 DSEG:0026
+P5				  Byte	 DSEG:0028
+P6				  Byte	 DSEG:0029
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  001A Para	  none
+DSEG				  16  002A Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

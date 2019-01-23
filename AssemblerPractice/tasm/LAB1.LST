@@ -1,0 +1,90 @@
+Turbo Assembler	 Version 4.1	    12/17/18 15:32:47	    Page 1
+lab1.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7	0000  7961 6461		     sList dw 'ya', 'da'
+      8	0004  02*(02*(00006F70	  +  dupping DD	2 Dup (	2 dup  ('op',2));
+      9	      00000002))
+     10	0024  002A		     const1 DW 42
+     11	      =	'kek'		     c1	EQU 'kek'
+     12	0026  6B 65 6B		     c2	db c1
+     13	      =	'ollo'		     c3	EQU <'ollo'>
+     14	0029  6F 6C 6C 6F	     с	db c3
+     15	002D  0001		     a dw 1
+     16	002F  0000002Dsr	     b dd  a
+     17	0033  FFDF		     positintdecnumber1	dw -33
+     18	0035  00000000000000001000   negatintdecnumber dt 1000
+     19	003F  B0		     positintdecnumber2	db -80
+     20
+     21	0040			     dseg ends
+     22	0000			     cseg segment
+     23				       assume ds:dseg,cs:cseg,ss:segst
+     24	0000			     main proc far
+     25	0000  1E			push ds
+     26	0001  2B C0			sub AX,AX
+     27	0003  50			push AX
+     28	0004  B8 0000s			mov ax,dseg
+     29	0007  8E D8			mov ds,ax
+     30
+     31	0009  A1 002Fr			mov ax,	[b]
+**Error** lab1.ASM(29) Operand types do	not match
+     32				       ; mov c2,c1
+     33				       ; mov al, c1
+     34				       ; mov c2, al
+     35	000C  B8 7961			mov ax,	'ya'
+     36	000F  C7 06 0024r FF38		mov const1, -200
+     37	0015  8B 1E 0024r		mov bx,	const1
+     38	0019  8E C0			mov es,	ax
+     39	001B  8A D8			mov bl,	al
+     40	001D  CB			ret
+     41	001E			     main endp
+     42	001E			     cseg ends
+     43				     end main
+Turbo Assembler	 Version 4.1	    12/17/18 15:32:47	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/17/18"
+??FILENAME			  Text	 "lab1	  "
+??TIME				  Text	 "15:32:47"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB1
+@WORDSIZE			  Text	 2
+A				  Word	 DSEG:002D
+B				  Dword	 DSEG:002F
+C1				  Text	 'kek'
+C2				  Byte	 DSEG:0026
+C3				  Text	 'ollo'
+CONST1				  Word	 DSEG:0024
+DUPPING				  Dword	 DSEG:0004
+MAIN				  Far	 CSEG:0000
+NEGATINTDECNUMBER		  Tbyte	 DSEG:0035
+POSITINTDECNUMBER1		  Word	 DSEG:0033
+POSITINTDECNUMBER2		  Byte	 DSEG:003F
+SLIST				  Word	 DSEG:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  001E Para	  none
+DSEG				  16  0040 Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+Turbo Assembler	 Version 4.1	    12/17/18 15:32:47	    Page 3
+Error Summary
+
+
+
+**Error** lab1.ASM(29) Operand types do	not match
+

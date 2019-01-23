@@ -1,0 +1,105 @@
+Turbo Assembler	 Version 4.1	    11/10/18 21:02:35	    Page 1
+lab2.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  01		     a db 1
+      9	0001  02		     b db 2
+     10	0002  03		     c db 3
+     11	0003  0004		     x dw 4
+     12	0005  0000		     y dw 0
+     13	0007  0000		     buf dw 0
+     14
+     15	0009			     dseg ends
+     16	0000			     cseg segment
+     17				       assume ds:dseg,cs:cseg,ss:segst
+     18	0000			     main proc far
+     19	0000  1E			push ds
+     20	0001  2B C0			sub AX,AX
+     21	0003  50			push AX
+     22	0004  B8 0000s			mov ax,dseg
+     23	0007  8E D8			mov ds,ax
+     24
+     25	0009  A0 0001r			mov al,	b
+     26	000C  F6 2E 0001r		imul b ;b = 4  ax = 4
+     27	0010  01 06 0005r		add y, ax ;y = y + b = 4
+     28	0014  8B 1E 0003r		mov bx,	x ; bx = 4
+     29	0018  01 1E 0005r		add y, bx ;y = y + x = 8
+     30	001C  A1 0005r			mov ax,	y ; ax = 8
+     31	001F  C7 06 0007r 0005		mov buf, 5 ; buf = 5
+     32	0025  F7 2E 0007r		imul buf ; ax =	40
+     33
+     34	0029  A3 0005r			mov y,ax ; y = 40
+     35	002C  C7 06 0007r 0000		mov buf, 0 ; buf = 0
+     36
+     37
+     38	0032  A0 0002r			mov al,	c ; al = 3
+     39	0035  F6 2E 0002r		imul c ; c = 9 ax = 9
+     40	0039  F6 2E 0000r		imul a ; ax = 9	* 1 = 9
+     41	003D  C7 06 0007r 0004		mov buf, 4 ; buf = 4
+     42	0043  F7 2E 0007r		imul buf ; ax =	9 * 4 =	36
+     43
+     44	0047  C7 06 0007r 0000		mov buf, 0 ; buf = 0
+     45	004D  01 06 0005r		add y, ax ; y =	y + buf	= 40 + 36 = 76
+     46
+     47
+     48
+     49	0051  83 06 0003r 04		add x, 4 ; x = x + 4 = 8
+     50	0056  A0 0001r			mov al,	b ; al = 2
+     51	0059  B3 02			mov bl,	2 ; bl = 2
+     52	005B  F6 EB			imul bl	; ax = al * bl = 2 * 2 = 4
+     53	005D  A3 0007r			mov buf, ax ; buf = 4
+     54	0060  FF 06 0007r		inc buf	; buf =	5
+     55	0064  A1 0003r			mov ax,	x ; ax = 8
+     56	0067  8B 1E 0007r		mov bx,	buf ; bx = 5
+     57	006B  F6 FB			idiv bl	; ah = ax / bl = 3
+Turbo Assembler	 Version 4.1	    11/10/18 21:02:35	    Page 2
+lab2.ASM
+
+
+
+     58	006D  8A C4			mov al,	ah ; al	= 3
+     59	006F  98			cbw ; ax = 3
+     60	0070  29 06 0005r		sub y, ax ; y =	y - ax = 76 - 3	= 73
+     61
+     62	0074  CB			ret
+     63	0075			     main endp
+     64	0075			     cseg ends
+     65				     end main
+Turbo Assembler	 Version 4.1	    11/10/18 21:02:35	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/10/18"
+??FILENAME			  Text	 "lab2	  "
+??TIME				  Text	 "21:02:35"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB2
+@WORDSIZE			  Text	 2
+A				  Byte	 DSEG:0000
+B				  Byte	 DSEG:0001
+BUF				  Word	 DSEG:0007
+C				  Byte	 DSEG:0002
+MAIN				  Far	 CSEG:0000
+X				  Word	 DSEG:0003
+Y				  Word	 DSEG:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  0075 Para	  none
+DSEG				  16  0009 Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

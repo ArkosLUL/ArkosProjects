@@ -1,0 +1,72 @@
+Turbo Assembler	 Version 4.1	    12/14/18 11:01:43	    Page 1
+lab12.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  FFFC FFF1	0004 0002 +  p1	DW -4,-15,4,2,8
+      9	      0008
+     10	000A  43 53 43 2B 2B 43	23   p2	DB 'CS','C++','C#'
+     11	0011  63		     p3	DB 99
+     12	0012  05*(????)		     p4	DW 5 DUP (?)
+     13	001C  ??		     p5	DB ?
+     14	001D  F1		     p6	DB -0Fh
+     15
+     16	001E			     dseg ends
+     17	0000			     cseg segment
+     18				       assume ds:dseg,cs:cseg,ss:segst
+     19	0000			     main proc far
+     20	0000  1E			push ds
+     21	0001  2B C0			sub AX,AX
+     22	0003  50			push AX
+     23	0004  B8 0000s			mov ax,dseg
+     24	0007  8E D8			mov ds,ax
+     25
+     26	0009  A1 0012r			mov AX,p4
+     27					;mov DS,ES сегментные	регистры
+     28					;mov AX,AL разной	длины
+     29	000C  B0 63			mov AL,'c'
+     30	000E  B0 0C			mov AL,12D
+     31	0010  BB 0011r			mov bx,	offset p3
+     32	0013  8B 07			mov AX,[BX]
+     33
+     34	0015  CB			ret
+     35	0016			     main endp
+     36	0016			     cseg ends
+     37				     end main
+Turbo Assembler	 Version 4.1	    12/14/18 11:01:43	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/14/18"
+??FILENAME			  Text	 "lab12	  "
+??TIME				  Text	 "11:01:43"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB12
+@WORDSIZE			  Text	 2
+MAIN				  Far	 CSEG:0000
+P1				  Word	 DSEG:0000
+P2				  Byte	 DSEG:000A
+P3				  Byte	 DSEG:0011
+P4				  Word	 DSEG:0012
+P5				  Byte	 DSEG:001C
+P6				  Byte	 DSEG:001D
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  0016 Para	  none
+DSEG				  16  001E Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

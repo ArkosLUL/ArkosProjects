@@ -1,0 +1,111 @@
+Turbo Assembler	 Version 4.1	    12/14/18 11:01:59	    Page 1
+lab21.ASM
+
+
+
+      1
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  01		     a db 1
+      9	0001  02		     b db 2
+     10	0002  0004		     x dw 4
+     11	0004  0000		     y dw 0
+     12	0006  0000		     buf dw 0
+     13	0008  0000		     buf2 dw 0
+     14	000A  00		     temp db 0
+     15
+     16	000B			     dseg ends
+     17	0000			     cseg segment
+     18				       assume ds:dseg,cs:cseg,ss:segst
+     19	0000			     main proc far
+     20	0000  1E			push ds
+     21	0001  2B C0			sub AX,AX
+     22	0003  50			push AX
+     23	0004  B8 0000s			mov ax,dseg
+     24	0007  8E D8			mov ds,ax
+     25
+     26	0009  A1 0002r			     mov ax, x;
+     27	000C  F7 2E 0002r		     imul x;
+     28	0010  F7 2E 0002r		     imul x;
+     29	0014  A3 0006r			     mov buf, ax;
+     30	0017  A0 0000r			     mov al, a;
+     31	001A  F6 2E 0000r		     imul a;
+     32	001E  98			     cbw
+     33	001F  F7 E8			     imul ax;
+     34	0021  01 06 0006r		     add buf, ax;
+     35	0025  A0 0001r			     mov al, b;
+     36	0028  98			     cbw
+     37	0029  B3 08			     mov bl, 8
+     38	002B  F6 EB			     imul bl;
+     39	002D  A3 0008r			     mov buf2, ax;
+     40	0030  FF 06 0008r		     inc buf2
+     41	0034  A1 0006r			     mov ax, buf;
+     42	0037  99			     cwd
+     43	0038  F7 3E 0008r		     idiv buf2
+     44	003C  A3 0004r			     mov y, ax
+     45
+     46	003F  A1 0002r			 mov ax, x;
+     47	0042  F7 2E 0002r		     imul x;
+     48	0046  F7 2E 0002r		     imul x;
+     49	004A  A3 0006r			     mov buf, ax;
+     50	004D  8B 1E 0006r		     mov bx, buf
+     51	0051  A0 0000r			     mov al,a
+     52	0054  98			     cbw
+     53	0055  F7 2E 0006r		     imul buf;
+     54	0059  C6 06 000Ar 03		     mov temp, 3
+     55	005E  F6 3E 000Ar		     idiv temp;
+     56	0062  98			     cbw
+     57	0063  01 06 0004r		     add y,ax
+Turbo Assembler	 Version 4.1	    12/14/18 11:01:59	    Page 2
+lab21.ASM
+
+
+
+     58
+     59	0067  A0 0000r			     mov al, a
+     60	006A  98			     cbw
+     61	006B  F7 2E 0002r		     imul x
+     62	006F  29 06 0004r		     sub y, ax
+     63
+     64
+     65
+     66
+     67	0073  CB			ret
+     68	0074			     main endp
+     69	0074			     cseg ends
+     70				     end main
+Turbo Assembler	 Version 4.1	    12/14/18 11:01:59	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/14/18"
+??FILENAME			  Text	 "lab21	  "
+??TIME				  Text	 "11:01:59"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB21
+@WORDSIZE			  Text	 2
+A				  Byte	 DSEG:0000
+B				  Byte	 DSEG:0001
+BUF				  Word	 DSEG:0006
+BUF2				  Word	 DSEG:0008
+MAIN				  Far	 CSEG:0000
+TEMP				  Byte	 DSEG:000A
+X				  Word	 DSEG:0002
+Y				  Word	 DSEG:0004
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  0074 Para	  none
+DSEG				  16  000B Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

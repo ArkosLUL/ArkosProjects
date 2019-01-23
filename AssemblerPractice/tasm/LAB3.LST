@@ -1,0 +1,90 @@
+Turbo Assembler	 Version 4.1	    12/17/18 15:00:41	    Page 1
+lab3.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  02 04 08 10 14 17	1B+  mas1 db 2,	4, 8, 16, 20, 23, 27, 30, 3, 10, 17, 29, 65, 47, 18, 30, 19, 7,	33, 14
+      9	      1E 03 0A 11 1D 41	2F+
+     10	      12 1E 13 07 21 0E
+     11	0014  01 03 08 14 07 05	0D+  mas2 db 1,	3, 8, 20, 7, 5,	13, 9, 25, 26, 15, 37, 86, 42, 21, 10, 44, 90, 67, 14
+     12	      09 19 1A 0F 25 56	2A+
+     13	      15 0A 2C 5A 43 0E
+     14	0028  0014		     len dw 20
+     15	002A  ??		     quotient db ?
+     16	002B  ??		     modulo db ?
+     17	002C  00		     count db 0
+     18
+     19	002D			     dseg ends
+     20	0000			     cseg segment
+     21				       assume ds:dseg,cs:cseg,ss:segst
+     22	0000			     main proc far
+     23	0000  1E			push ds
+     24	0001  2B C0			sub AX,AX
+     25	0003  50			push AX
+     26	0004  B8 0000s			mov ax,dseg
+     27	0007  8E D8			mov ds,ax
+     28
+     29	0009  BE 0000			mov si,	0
+     30	000C  8B 0E 0028r		mov cx,	len
+     31	0010  51			cycl1: push cx
+     32	0011  C6 06 002Ar 00		mov quotient,0
+     33	0016  C6 06 002Br 00		mov modulo,0
+     34	001B  B0 00			mov al,0
+     35	001D  C6 06 002Cr 00		mov count,0
+     36	0022  8A 84 0000r		mov al,	mas1[si]
+     37	0026  3A 84 0014r		cycl2: cmp al, mas2[si]
+     38	002A  7C 0A			jnge endc
+     39	002C  2A 84 0014r		sub al,mas2[si]
+     40	0030  FE 06 002Cr		inc count
+     41	0034  E2 F0			loop cycl2
+     42	0036				endc:
+     43	0036  59			pop cx
+     44	0037  8A 1E 002Cr		mov bl,count
+     45	003B  88 1E 002Ar		mov quotient, bl
+     46	003F  A2 002Br			mov modulo, al
+     47	0042  46			inc si
+     48	0043  E2 CB			loop cycl1
+     49	0045  CB			ret
+     50	0046			     main endp
+     51	0046			     cseg ends
+     52				     end main
+Turbo Assembler	 Version 4.1	    12/17/18 15:00:41	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/17/18"
+??FILENAME			  Text	 "lab3	  "
+??TIME				  Text	 "15:00:41"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB3
+@WORDSIZE			  Text	 2
+COUNT				  Byte	 DSEG:002C
+CYCL1				  Near	 CSEG:0010
+CYCL2				  Near	 CSEG:0026
+ENDC				  Near	 CSEG:0036
+LEN				  Word	 DSEG:0028
+MAIN				  Far	 CSEG:0000
+MAS1				  Byte	 DSEG:0000
+MAS2				  Byte	 DSEG:0014
+MODULO				  Byte	 DSEG:002B
+QUOTIENT			  Byte	 DSEG:002A
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  0046 Para	  none
+DSEG				  16  002D Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

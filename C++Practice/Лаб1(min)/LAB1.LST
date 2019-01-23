@@ -1,0 +1,72 @@
+Turbo Assembler	 Version 3.1	    09/26/18 11:24:37	    Page 1
+lab1.asm
+
+
+
+      1	0000			     segst   segment para stack	 'stack'
+      2	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      3	      20 20 20)
+      4	0200			     segst   ends
+      5	0000			     dseg segment 'data'
+      6	0000  25 FB 0E 00	     p1	DB 37,-5,14,0
+      7	0004  00000000000000000129+  p2	DT 129,-81
+      8	      80000000000000000081
+      9	0018  FFFB 007D	FF2E 000F    p3	DW -5,125,-210,15
+     10	0020  77 69 6E 74 65 72	73+  p4	DB 'winter','summer','Yes','0 9'
+     11	      75 6D 6D 65 72 59	65+
+     12	      73 30 20 39
+     13	0032  03*(00000016	  +  p5	DD 3 dup(22,-6,15)
+     14	      FFFFFFFA 0000000F)
+     15	0056  4C 7A		     p6	DB -0b4H,7AH
+     16	0058  8F		     p7	DB  10001111b
+     17	0059			     dseg ends
+     18	0000			     cseg segment
+     19				       assume ds:dseg,cs:cseg,ss:segst
+     20	0000			     main proc far
+     21	0000  1E			push ds
+     22	0001  2B C0			sub AX,AX
+     23	0003  50			push AX
+     24	0004  B8 0000s			mov ax,dseg
+     25	0007  8E D8			mov ds,ax
+     26
+     27	0009  C6 06 0000r E0		mov p1,-32
+     28	000E  BB 001B			mov BX,27
+     29	0011  8A C3			mov AL,BL
+     30	0013  BB 0018r			mov BX,offset p3
+     31	0016  8B 07			mov AX,[BX]
+     32	0018  8A 16 0058r		mov DL,p7
+     33	001C  CB			ret
+     34	001D			     main endp
+     35	001D			     cseg ends
+     36				     end main
+Turbo Assembler	 Version 3.1	    09/26/18 11:24:37	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "09/26/18"
+??FILENAME			  Text	 "lab1	  "
+??TIME				  Text	 "11:24:36"
+??VERSION			  Number 030A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB1
+@WORDSIZE			  Text	 2
+MAIN				  Far	 CSEG:0000
+P1				  Byte	 DSEG:0000
+P2				  Tbyte	 DSEG:0004
+P3				  Word	 DSEG:0018
+P4				  Byte	 DSEG:0020
+P5				  Dword	 DSEG:0032
+P6				  Byte	 DSEG:0056
+P7				  Byte	 DSEG:0058
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  001D Para	  none
+DSEG				  16  0059 Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+

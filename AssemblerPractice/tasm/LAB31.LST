@@ -1,0 +1,124 @@
+Turbo Assembler	 Version 4.1	    12/16/18 19:52:56	    Page 1
+lab31.ASM
+
+
+
+      1				     ;.486
+      2	0000			     segst   segment para stack	 'stack'
+      3	0000  40*(73 74	61 63 6B  +	     db	     64	dup('stack   ')
+      4	      20 20 20)
+      5	0200			     segst   ends
+      6	0000			     dseg segment 'data'
+      7
+      8	0000  02 04 08		     mas1 db 2,	4, 8
+      9	0003  01 00 08			      db 1, 0, 8
+     10	0006  01 00 FD			      db 1, 0, -3
+     11	0009  0003		     len dw 3
+     12	000B  ??		     buf db ?
+     13	000C  ????		     bufw dw ?
+     14
+     15	000E			     dseg ends
+     16	0000			     cseg segment
+     17				       assume ds:dseg,cs:cseg,ss:segst
+     18	0000			     main proc far
+     19	0000  1E			push ds
+     20	0001  2B C0			sub AX,AX
+     21	0003  50			push AX
+     22	0004  B8 0000s			mov ax,dseg
+     23	0007  8E D8			mov ds,ax
+     24
+     25	0009  BB 0000r			lea bx,	mas1
+     26	000C  8A 07			mov al,	byte ptr [bx+0]
+     27	000E  8B 0E 0009r		mov cx,	len
+     28	0012				cycl1:
+     29	0012  51			push cx
+     30	0013  8B 0E 0009r		mov cx,	len
+     31	0017  BE 0000			mov si,0
+     32	001A  80 39 00			cmp byte ptr [bx+di],0
+     33	001D  74 08			je zero
+     34	001F  7C 13			jnge less_zero
+     35	0021  7F 1E			jnle over_zero
+     36
+     37	0023  8B 0E 0009r		mov cx,	len
+     38	0027				zero:
+     39	0027  C6 00 00			mov byte ptr [bx+si], 0
+     40	002A  46			inc si
+     41	002B  E2 FA			loop zero
+     42	002D  EB 1B 90			jmp endc
+     43
+     44	0030  8B 0E 0009r		mov cx,	len
+     45	0034				less_zero:
+     46	0034  C6 00 FF			mov byte ptr [bx+si], -1
+     47	0037  46			inc si
+     48	0038  E2 FA			loop less_zero
+     49	003A  EB 0E 90			jmp endc
+     50
+     51	003D  8B 0E 0009r		mov cx,	len
+     52	0041				over_zero:
+     53	0041  C6 00 01			mov byte ptr [bx+si], 1
+     54	0044  46			inc si
+     55	0045  E2 FA			loop over_zero
+     56	0047  EB 01 90			jmp endc
+     57
+Turbo Assembler	 Version 4.1	    12/16/18 19:52:56	    Page 2
+lab31.ASM
+
+
+
+     58	004A				endc:
+     59
+     60	004A  59			pop cx
+     61	004B  03 1E 0009r		add bx,	len
+     62	004F  47			inc di
+     63	0050  E2 C0			loop cycl1
+     64
+     65	0052  A1 0009r			mov ax,	len
+     66	0055  F7 2E 0009r		imul len
+     67	0059  8B C8			mov cx,ax
+     68	005B  BE 0000			mov si,0
+     69	005E				debug:
+     70	005E  8A 84 0000r		mov al,	mas1[si]
+     71	0062  A2 000Br			mov buf, al
+     72	0065  98			cbw
+     73	0066  A3 000Cr			mov bufw, ax
+     74	0069  46			inc si
+     75	006A  E2 F2			loop debug
+     76
+     77	006C  CB			ret
+     78	006D			     main endp
+     79	006D			     cseg ends
+     80				     end main
+Turbo Assembler	 Version 4.1	    12/16/18 19:52:56	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/16/18"
+??FILENAME			  Text	 "lab31	  "
+??TIME				  Text	 "19:52:56"
+??VERSION			  Number 040A
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CSEG
+@FILENAME			  Text	 LAB31
+@WORDSIZE			  Text	 2
+BUF				  Byte	 DSEG:000B
+BUFW				  Word	 DSEG:000C
+CYCL1				  Near	 CSEG:0012
+DEBUG				  Near	 CSEG:005E
+ENDC				  Near	 CSEG:004A
+LEN				  Word	 DSEG:0009
+LESS_ZERO			  Near	 CSEG:0034
+MAIN				  Far	 CSEG:0000
+MAS1				  Byte	 DSEG:0000
+OVER_ZERO			  Near	 CSEG:0041
+ZERO				  Near	 CSEG:0027
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CSEG				  16  006D Para	  none
+DSEG				  16  000E Para	  none	  DATA
+SEGST				  16  0200 Para	  Stack	  STACK
+
